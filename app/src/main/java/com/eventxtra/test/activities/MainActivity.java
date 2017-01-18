@@ -1,24 +1,18 @@
 package com.eventxtra.test.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.eventxtra.test.R;
 import com.eventxtra.test.adapters.ReminderAdapter;
@@ -37,14 +31,15 @@ public class MainActivity extends AppCompatActivity {
 	ReminderAdapter mReminderAdapter;
 	ListView mListViewMain;
 	SmoothProgressBar smoothprogressbar_main;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		//setup download progress dialog
-		smoothprogressbar_main = (SmoothProgressBar)findViewById(R.id.smoothprogressbar_main);
+		smoothprogressbar_main = (SmoothProgressBar) findViewById(R.id.smoothprogressbar_main);
 		//setup listview
-		mListViewMain = (ListView)findViewById(R.id.listview_main);
+		mListViewMain = (ListView) findViewById(R.id.listview_main);
 		//setup adapter
 		mReminderAdapter = new ReminderAdapter(MainActivity.this);
 		//setup floating button to add new event
@@ -70,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
 		mListViewMain.setAdapter(mReminderAdapter);
 
 		//check internet is available
-		if(isNetworkAvailable(MainActivity.this)){
+		if (isNetworkAvailable(MainActivity.this)) {
 			getData();
-		} else{
+		} else {
 			Snackbar snack = Snackbar.make(findViewById(android.R.id.content), "need to check your network is available", Snackbar.LENGTH_LONG);
 			View view = snack.getView();
-			FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view.getLayoutParams();
+			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
 			params.gravity = Gravity.TOP;
 			view.setLayoutParams(params);
 			view.setBackgroundColor(Color.RED);
@@ -119,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 	private void getData() {
 		//get data
 		smoothprogressbar_main.setVisibility(View.VISIBLE);
+		Toast.makeText(MainActivity.this, "updating", Toast.LENGTH_SHORT).show();
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get(MainActivity.this, "https://sheetsu.com/apis/v1.0/91d8c1cbe904", new JsonHttpResponseHandler() {
 			@Override
@@ -129,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 				mReminderAdapter.clear();
 				int dataLength = response.length();
 				try {
-					for(int index=0 ; index< dataLength; index++){
+					for (int index = 0; index < dataLength; index++) {
 						JSONObject rowData = response.getJSONObject(index);
 						String string_datetime = rowData.getString("datetime");
 						String string_task = rowData.getString("task");
@@ -144,9 +140,13 @@ public class MainActivity extends AppCompatActivity {
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				super.onFailure(statusCode, headers, responseString, throwable);
-				Log.d(TAG,statusCode+" "+responseString);
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				try {
+					Log.d(TAG, " statusCode " + statusCode + " " + errorResponse.toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				smoothprogressbar_main.setVisibility(View.GONE);
 			}
 		});
