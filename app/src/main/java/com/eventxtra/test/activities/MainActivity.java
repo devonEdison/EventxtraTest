@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.eventxtra.test.R;
-import com.eventxtra.test.adapters.ReminderAdapter;
+import com.eventxtra.test.adapters.TodoAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -28,8 +28,8 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 	private static final String TAG = "MainActivity";
-	ReminderAdapter mReminderAdapter;
-	ListView mListViewMain;
+	TodoAdapter mTodoAdapter;
+	ListView mListViewTodo;
 	SmoothProgressBar smoothprogressbar_main;
 
 	@Override
@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 		//setup download progress dialog
 		smoothprogressbar_main = (SmoothProgressBar) findViewById(R.id.smoothprogressbar_main);
 		//setup listview
-		mListViewMain = (ListView) findViewById(R.id.listview_main);
+		mListViewTodo = (ListView) findViewById(R.id.listview_todo);
 		//setup adapter
-		mReminderAdapter = new ReminderAdapter(MainActivity.this);
+		mTodoAdapter = new TodoAdapter(MainActivity.this);
 		//setup floating button to add new event
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.actionbutton_main);
 		fab.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
 	protected void onStart() {
 		super.onStart();
 		//fake data first showed up
-		mReminderAdapter.add(new ReminderAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
-		mReminderAdapter.add(new ReminderAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
-		mReminderAdapter.add(new ReminderAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
+		mTodoAdapter.add(new TodoAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
+		mTodoAdapter.add(new TodoAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
+		mTodoAdapter.add(new TodoAdapter.SampleItem("2016-02-28", "fake", "TRUE"));
 
 		//set mListView
-		mListViewMain.setAdapter(mReminderAdapter);
+		mListViewTodo.setAdapter(mTodoAdapter);
 
 		//check internet is available
 		if (isNetworkAvailable(MainActivity.this)) {
@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
 		smoothprogressbar_main.setVisibility(View.VISIBLE);
 		Toast.makeText(MainActivity.this, "updating", Toast.LENGTH_SHORT).show();
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get(MainActivity.this, "https://sheetsu.com/apis/v1.0/91d8c1cbe904", new JsonHttpResponseHandler() {
+		client.get(MainActivity.this, getString(R.string.api_url), new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 				super.onSuccess(statusCode, headers, response);
 				smoothprogressbar_main.setVisibility(View.GONE);
 				//clear data
-				mReminderAdapter.clear();
+				mTodoAdapter.clear();
 				int dataLength = response.length();
 				try {
 					for (int index = 0; index < dataLength; index++) {
@@ -130,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
 						String string_datetime = rowData.getString("datetime");
 						String string_task = rowData.getString("task");
 						String string_isFinish = rowData.getString("isFinish");
-						mReminderAdapter.add(new ReminderAdapter.SampleItem(string_datetime, string_task, string_isFinish));
+						mTodoAdapter.add(new TodoAdapter.SampleItem(string_datetime, string_task, string_isFinish));
 					}
 					//set adapter
-					mReminderAdapter.notifyDataSetChanged();
+					mTodoAdapter.notifyDataSetChanged();
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

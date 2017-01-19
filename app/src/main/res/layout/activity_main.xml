@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true">
 
     <ListView
-        android:id="@+id/listview_main"
+        android:id="@+id/listview_todo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"

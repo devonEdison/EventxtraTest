@@ -14,8 +14,8 @@ import com.eventxtra.test.R;
 /**
  * Created by Devon on 2016/1/18
  */
-public class ReminderAdapter extends ArrayAdapter<ReminderAdapter.SampleItem> {
-	public ReminderAdapter(Context context) {
+public class TodoAdapter extends ArrayAdapter<TodoAdapter.SampleItem> {
+	public TodoAdapter(Context context) {
 		super(context, 0);
 	}
 
