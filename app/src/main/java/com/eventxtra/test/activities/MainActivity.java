@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 				switch (index) {
 					case 0:
 						// edit
-						editDataDialog(position);
+						reviseDataDialog(position);
 						break;
 					case 1:
 						// delete
@@ -502,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
 				.show();
 	}
 
-	private void editDataDialog(final int position){
+	private void reviseDataDialog(final int position){
 		final List<ToDoData> mList = mToDoDataDao.loadAll();
 		final View item = LayoutInflater.from(MainActivity.this).inflate(R.layout.todo_list_dialog, null);
 		final EditText editTextDateTime = (EditText) item.findViewById(R.id.edit_text_datetimevalue);
