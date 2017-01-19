@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
@@ -19,15 +20,24 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
-
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //a fast tiny async http client which only slower then Retrofit. But faster then Volley, okhttp.
+    //I use it because it's so tiny.
     compile 'com.loopj.android:android-async-http:1.4.9'
+    //an awesome progressbar for communication with server
     compile 'com.hannesdorfmann.smoothprogressbar:library:1.0.0'
+    //ORM database
+    compile 'org.greenrobot:greendao:3.2.0'
+    //listview swipe left to delete or edit
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    //pull to refresh listview
+    compile 'com.yalantis:phoenix:1.2.3'
 }

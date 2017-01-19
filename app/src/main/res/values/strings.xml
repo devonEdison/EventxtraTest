@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">EventxtraTest</string>
     <string name="action_settings">Settings</string>
-    <string name="api_url">https://sheetsu.com/apis/v1.0/91d8c1cbe904</string>
+    <string name="add_new_task">New Task</string>
+    <string name="revise_task">Warning!! will revise the rows which is the same as task value</string>
+    <string name="delete_task">Deleting!! are you sure?!</string>
+
 </resources>

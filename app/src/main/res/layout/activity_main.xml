@@ -6,13 +6,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ListView
+    <com.yalantis.phoenix.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/listview_todo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"/>
+    </com.yalantis.phoenix.PullToRefreshView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/actionbutton_main"

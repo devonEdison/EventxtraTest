@@ -24,11 +24,11 @@ public class TodoAdapter extends ArrayAdapter<TodoAdapter.SampleItem> {
 		View v = convertView;
 		final Holder holder;
 		if(v == null){
-			v = LayoutInflater.from(getContext()).inflate(R.layout.reminder_list_row, null);
+			v = LayoutInflater.from(getContext()).inflate(R.layout.todo_list_row, null);
 			holder = new Holder();
-			holder.text_datetimevalue = (TextView) v.findViewById(R.id.text_datetimevalue);
-			holder.text_taskvalue = (TextView)v.findViewById(R.id.text_taskvalue);
-			holder.text_isfinishvalue = (TextView)v.findViewById(R.id.text_isfinishvalue);
+			holder.text_datetimevalue = (TextView) v.findViewById(R.id.edit_text_datetimevalue);
+			holder.text_taskvalue = (TextView)v.findViewById(R.id.edit_text_taskvalue);
+			holder.text_isfinishvalue = (TextView)v.findViewById(R.id.edit_text_isfinishvalue);
 			holder.relativelayout_listrow = (RelativeLayout)v.findViewById(R.id.relativelayout_listrow);
 			v.setTag(holder);
 		}else{
